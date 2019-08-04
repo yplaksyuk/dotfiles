@@ -32,7 +32,10 @@ set wildignore=*.o,build/**,**/node_modules/**
 set makeprg=make
 
 set list
-set listchars=tab:→\ ,space:·,nbsp:␣,trail:•,eol:¶,precedes:«
+set listchars=tab:→\ ,nbsp:␣,trail:•,eol:¶,precedes:«
+if v:version > 704
+	set listchars+=space:·
+endif
 "set cursorline
 
 hi CursorLine cterm=NONE ctermbg=255 guifg=#eeeeee
