@@ -60,8 +60,8 @@ set statusline=[%n]\ %f%m%r%=%{GitBranch()}\ %l:%c\ %P\ [%{&fileformat}]
 
 
 autocmd BufNewFile,BufRead *.json,*.jsonc set ft=javascript
+autocmd BufEnter *.js source ~/.vim/javascript.vim
 
 inoremap {<CR> {<CR>}<ESC>O
 
 command! MakeTags !ctags -R include/ src/
-
