@@ -44,7 +44,7 @@ hi SpecialKey ctermfg=251 guifg=#999999
 hi NonText ctermfg=251·guifg=#999999
 
 set wildcharm=<C-z>
-nnoremap <silent> <tab>   :b<space><C-z>
+nnoremap <silent> <tab>   :ls<cr>
 nnoremap <silent> <S-tab> :b#<cr>
 nnoremap <silent> <cr>    :nohlsearch<cr>
 nnoremap <silent> <f2>    :set relativenumber!<cr>
