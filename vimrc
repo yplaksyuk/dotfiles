@@ -27,7 +27,7 @@ set hlsearch
 
 set path=**
 set wildmenu
-set wildignore=*.o,build/**,**/node_modules/**
+set wildignore=*.o,build/*,docs/*,**/node_modules/*
 
 set makeprg=make
 
@@ -44,13 +44,13 @@ hi SpecialKey ctermfg=251 guifg=#999999
 hi NonText ctermfg=251·guifg=#999999
 
 set wildcharm=<C-z>
-nnoremap <silent> <tab>   :ls<cr>
-nnoremap <silent> <S-tab> :b#<cr>
-nnoremap <silent> <cr>    :nohlsearch<cr>
-nnoremap <silent> <f2>    :set relativenumber!<cr>
-nnoremap <silent> <f3>    :set list!<cr>
-nnoremap <silent> <f5>    :cprev<cr>
-nnoremap <silent> <f6>    :cnext<cr>
+nnoremap <tab>   :CtrlPBuffer<cr>
+nnoremap <S-tab> :b#<cr>
+nnoremap <cr>    :nohlsearch<cr>
+nnoremap <f2>    :set relativenumber!<cr>
+nnoremap <f3>    :set list!<cr>
+nnoremap <f5>    :cprev<cr>
+nnoremap <f6>    :cnext<cr>
 
 function! GitBranch()
 	return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
@@ -65,3 +65,6 @@ autocmd BufEnter *.js source ~/.vim/javascript.vim
 inoremap {<CR> {<CR>}<ESC>O
 
 command! MakeTags !ctags -R include/ src/
+
+let g:ctrlp_working_path_mode = 'rwa'
+let g:ctrlp_custom_ignore = '\v[\/](build|docs|node_modules)$'
