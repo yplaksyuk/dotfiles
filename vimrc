@@ -36,6 +36,7 @@ set listchars=tab:→\ ,nbsp:␣,trail:•,eol:¶,precedes:«
 if v:version > 704
 	set listchars+=space:·
 endif
+set fillchars+=vert:\ 
 "set cursorline
 
 hi CursorLine cterm=NONE ctermbg=255 guifg=#eeeeee
@@ -49,8 +50,8 @@ nnoremap <S-tab> :b#<cr>
 nnoremap <cr>    :nohlsearch<cr>
 nnoremap <f2>    :set relativenumber!<cr>
 nnoremap <f3>    :set list!<cr>
-nnoremap <f5>    :cprev<cr>
-nnoremap <f6>    :cnext<cr>
+nnoremap <f11>   :cprev<cr>
+nnoremap <f12>   :cnext<cr>
 
 function! GitBranch()
 	return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
@@ -68,3 +69,9 @@ command! MakeTags !ctags -R include/ src/
 
 let g:ctrlp_working_path_mode = 'rwa'
 let g:ctrlp_custom_ignore = '\v[\/](build|docs|node_modules)$'
+
+let g:vdebug_options = {
+\	'on_close': 'stop',
+\	'continuous_mode': 0,
+\	'layout': 'horizontal',
+\}
