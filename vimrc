@@ -1,4 +1,9 @@
-"execute pathogen#infect()
+call plug#begin()
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tpope/vim-surround'
+Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+Plug 'idanarye/vim-vebugger', { 'branch': 'develop' }
+call plug#end()
 
 set encoding=utf-8
 set nocompatible
@@ -50,8 +55,12 @@ nnoremap <S-tab> :b#<cr>
 nnoremap <cr>    :nohlsearch<cr>
 nnoremap <f2>    :set relativenumber!<cr>
 nnoremap <f3>    :set list!<cr>
-nnoremap <f11>   :cprev<cr>
-nnoremap <f12>   :cnext<cr>
+nnoremap <f5>   :cprev<cr>
+nnoremap <f6>   :cnext<cr>
+nnoremap <f9>   :VBGtoggleBreakpointThisLine<cr>
+nnoremap <f10>  :VBGstepOver<cr>
+nnoremap <f11>  :VBGstepIn<cr>
+nnoremap <f12>  :VBGstepOut<cr>
 
 function! GitBranch()
 	return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
