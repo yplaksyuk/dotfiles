@@ -2,7 +2,7 @@ call plug#begin()
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-surround'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-Plug 'idanarye/vim-vebugger', { 'branch': 'develop' }
+Plug 'git@github.com:yplaksyuk/vim-vebugger.git', { 'branch': 'develop' }
 call plug#end()
 
 set encoding=utf-8
@@ -78,6 +78,8 @@ command! MakeTags !ctags -R include/ src/
 
 let g:ctrlp_working_path_mode = 'rwa'
 let g:ctrlp_custom_ignore = '\v[\/](build|docs|node_modules)$'
+
+let g:vebugger_view_source_cmd='edit'
 
 let g:vdebug_options = {
 \	'on_close': 'stop',
