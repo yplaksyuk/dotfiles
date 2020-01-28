@@ -1,6 +1,8 @@
 call plug#begin()
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'roman/golden-ratio'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'git@github.com:yplaksyuk/vim-vebugger.git', { 'branch': 'develop' }
 call plug#end()
@@ -12,7 +14,6 @@ set nocompatible
 syntax on
 filetype plugin indent on
 
-set number
 set relativenumber
 set numberwidth=5
 
@@ -77,12 +78,44 @@ inoremap {<CR> {<CR>}<ESC>O
 command! MakeTags !ctags -R include/ src/
 
 let g:ctrlp_working_path_mode = 'rwa'
-let g:ctrlp_custom_ignore = '\v[\/](build|docs|node_modules)$'
+let g:ctrlp_match_window = 'max:20,results:100'
 
 let g:vebugger_view_source_cmd='edit'
 
 let g:vdebug_options = {
-\	'on_close': 'stop',
-\	'continuous_mode': 0,
-\	'layout': 'horizontal',
-\}
+			\	'on_close': 'stop',
+			\	'continuous_mode': 0,
+			\	'layout': 'horizontal',
+			\}
+let g:project_type = []
+
+
+if filereadable('pom.xml')
+	let g:project_type += [ 'maven' ]
+	let g:ctrlp_custom_ignore = '\v[\/](target)$'
+	set wildignore=target/*
+endif
+
+if filereadable('CMakeLists.txt')
+	let g:project_type += [ 'cmake' ]
+	let g:ctrlp_custom_ignore = '\v[\/](build|docs)$'
+	set wildignore=*.o,build/*,docs/*
+endif
+
+if filereadable('Makefile')
+	let g:project_type += [ 'make' ]
+	let g:ctrlp_custom_ignore = '\v[\/](docs)$'
+	set wildignore=*.o,build/*,docs/*
+endif
+
+if filereadable('package.json')
+	let g:project_type += [ 'node' ]
+	let g:ctrlp_custom_ignore = '\v[\/](node_modiles)$'
+	set wildignore=node_modules
+endif
+
+if filereadable('composer.json')
+	let g:project_type += [ 'php' ]
+	let g:ctrlp_custom_ignore = '\v[\/](vendor|modules)$'
+	set wildignore=vendor,modules
+endif
