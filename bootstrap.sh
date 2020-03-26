@@ -9,4 +9,3 @@ mkdir -p ~/.local/bin
 ln -fs ${DOTFILES}/bin/git-cleanup ~/.local/bin/git-cleanup
 
 ln -fs ${DOTFILES}/vimrc ~/.vimrc
-ln -fs ${DOTFILES}/vim ~/.vim
