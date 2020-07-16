@@ -1,8 +1,9 @@
 call plug#begin()
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'majutsushi/tagbar'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
-Plug 'roman/golden-ratio'
+"Plug 'roman/golden-ratio'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'git@github.com:yplaksyuk/vim-vebugger.git', { 'branch': 'develop' }
 Plug 'prabirshrestha/async.vim'
@@ -38,14 +39,14 @@ set incsearch
 set path=**
 set wildmenu
 set wildmode=longest:full
-set wildignore=*/.git/*,*/docs/*
+set wildignore=*.swp,*/.git/*,*/docs/*
 
 set list
 set listchars=tab:→\ ,nbsp:␣,trail:•,eol:¶,precedes:«
 if v:version > 704
 	set listchars+=space:·
 endif
-"set fillchars+=vert:\ 
+set fillchars+=vert:\ 
 set cursorline
 
 hi CursorLine cterm=NONE ctermbg=15
@@ -61,10 +62,11 @@ set wildcharm=<C-z>
 nnoremap <tab>   :CtrlPBuffer<cr>
 nnoremap <S-tab> :b#<cr>
 nnoremap <cr>    :nohlsearch<cr>
+nnoremap <f2>    :TagbarToggle<cr>
 "nnoremap <f2>    :set relativenumber!<cr>
 "nnoremap <f3>    :set list!<cr>
 nnoremap <f6>   :cnext<cr>
-nnoremap <f5>   :cprev<cr>
+nnoremap <f7>   :cprev<cr>
 nnoremap <f9>   :VBGtoggleBreakpointThisLine<cr>
 nnoremap <f10>  :VBGstepOver<cr>
 nnoremap <f11>  :VBGstepIn<cr>

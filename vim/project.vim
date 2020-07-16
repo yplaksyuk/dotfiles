@@ -1,8 +1,8 @@
 
-if filereadable('Makefile')
-	let g:project_type='make'
-elseif filereadable('CMakeLists.txt')
+if filereadable('CMakeLists.txt')
 	let g:project_type='cmake'
+elseif filereadable('Makefile')
+	let g:project_type='make'
 elseif filereadable('pom.xml')
 	let g:project_type='maven'
 elseif filereadable('package.json')
