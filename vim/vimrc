@@ -11,7 +11,6 @@ Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
-"Plug 'ajh17/vimcompletesme'
 call plug#end()
 
 set encoding=utf-8
@@ -39,7 +38,7 @@ set incsearch
 set path=**
 set wildmenu
 set wildmode=longest:full
-set wildignore=*.swp,*/.git/*,*/docs/*
+set wildignore=*.swp,*/.git/*,*/docs/*,*/node_modules/*
 
 set list
 set listchars=tab:→\ ,nbsp:␣,trail:•,eol:¶,precedes:«
