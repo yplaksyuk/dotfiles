@@ -1,5 +1,6 @@
 
-"autocmd BufNewFile,BufRead *.json,*.jsonc set ft=javascript
-autocmd BufNewFile,BufRead *.json,*.jsonc set ft=json
+autocmd BufNewFile,BufRead *.json setlocal ft=json
+autocmd BufNewFile,BufRead *.jsonc setlocal ft=jsonc
+
 autocmd BufEnter *.js source ~/.vim/filetype/javascript.vim
 

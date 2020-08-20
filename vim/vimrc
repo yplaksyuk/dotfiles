@@ -11,6 +11,7 @@ Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
+Plug 'neoclide/jsonc.vim'
 call plug#end()
 
 set encoding=utf-8
@@ -91,6 +92,8 @@ let g:vdebug_options = {
 			\	'continuous_mode': 0,
 			\	'layout': 'horizontal',
 			\}
+
+let g:lsp_highlight_references_enabled = 1
 
 function! GitBranch()
 	return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
