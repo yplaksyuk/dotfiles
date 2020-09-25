@@ -56,6 +56,7 @@ hi SpecialKey ctermfg=15
 hi NonText ctermfg=15
 hi Pmenu ctermbg=7
 hi PmenuSel ctermbg=8 ctermfg=15
+hi Error ctermfg=0 ctermbg=203
 
 set wildcharm=<C-z>
 "nnoremap <tab>   :b <C-z>
