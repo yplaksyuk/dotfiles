@@ -3,7 +3,6 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'majutsushi/tagbar'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
-"Plug 'roman/golden-ratio'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'git@github.com:yplaksyuk/vim-vebugger.git', { 'branch': 'develop' }
 Plug 'prabirshrestha/async.vim'
@@ -12,6 +11,9 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'neoclide/jsonc.vim'
+Plug 'plasticboy/vim-markdown'
+Plug 'tpope/vim-fugitive'
+Plug 'morhetz/gruvbox'
 call plug#end()
 
 set encoding=utf-8
@@ -20,21 +22,19 @@ set nocompatible
 syntax on
 filetype plugin indent on
 
-set number relativenumber
-set numberwidth=5
+set number relativenumber numberwidth=5
 
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set noexpandtab
+set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 
 set completeopt=menu,preview
 set complete-=i
 
+set smartindent
 set laststatus=2
 set modelines=5
 set hlsearch
 set incsearch
+set noswapfile nobackup
 
 set path=**
 set wildmenu
@@ -43,20 +43,20 @@ set wildignore=*.swp,*/.git/*,*/docs/*,*/node_modules/*
 
 set list
 set listchars=tab:→\ ,nbsp:␣,trail:•,eol:¶,precedes:«
-if v:version > 704
-	set listchars+=space:·
-endif
 set fillchars+=vert:\ 
+"set colorcolumn=132
 set cursorline
 
-hi CursorLine cterm=NONE ctermbg=15
-hi CursorLineNr cterm=NONE ctermbg=15
-hi StatusLine ctermfg=8
-hi SpecialKey ctermfg=15
-hi NonText ctermfg=15
-hi Pmenu ctermbg=7
-hi PmenuSel ctermbg=8 ctermfg=15
-hi Error ctermfg=0 ctermbg=203
+"hi CursorLine cterm=NONE ctermbg=15
+"hi ColorColumn ctermbg=1
+"hi CursorLineNr cterm=NONE ctermbg=15
+"hi StatusLine ctermfg=8
+"hi SpecialKey ctermfg=15
+"hi NonText ctermfg=15
+"hi Pmenu ctermbg=7
+"hi PmenuSel ctermbg=8 ctermfg=15
+"hi Error ctermfg=0 ctermbg=203
+set background=dark
 
 set wildcharm=<C-z>
 "nnoremap <tab>   :b <C-z>
@@ -106,3 +106,4 @@ let s:vimrc=expand('<sfile>:p')
 
 command! Vimrc execute 'edit ' . s:vimrc
 
+autocmd vimenter * colorscheme gruvbox
