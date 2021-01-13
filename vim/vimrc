@@ -54,6 +54,7 @@ set nofoldenable
 set background=dark
 
 set wildcharm=<C-z>
+nnoremap <esc><esc> :nohlsearch<cr>
 "nnoremap <tab>   :b <C-z>
 nnoremap <tab>   :CtrlPBuffer<cr>
 nnoremap <S-tab> :b#<cr>
