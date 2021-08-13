@@ -11,6 +11,7 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'neoclide/jsonc.vim'
+Plug 'digitaltoad/vim-jade'
 Plug 'plasticboy/vim-markdown'
 Plug 'tpope/vim-fugitive'
 Plug 'morhetz/gruvbox'
@@ -39,7 +40,7 @@ set noswapfile nobackup
 set path=**
 set wildmenu
 set wildmode=longest:full
-set wildignore=*.swp,*/.git/*,*/docs/*,*/node_modules/*
+set wildignore=*.swp,*/.git/*,*/docs/*,*/node_modules/*,*/dist/*
 
 set list
 set listchars=tab:→\ ,nbsp:␣,trail:•,eol:¶,precedes:«
@@ -68,6 +69,7 @@ nnoremap <f12>  :VBGstepOut<cr>
 nnoremap <leader>h :nohlsearch<cr>
 nnoremap <leader>l :set list!<cr>
 nnoremap <leader>w :only<cr>
+nnoremap <leader>q :bd<cr>
 nnoremap <leader>o :TagbarToggle<cr>
 nnoremap <leader>d :LspDocumentDiagnostics<cr>
 nnoremap <leader>p :LspDefinition<cr>
