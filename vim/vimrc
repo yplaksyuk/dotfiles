@@ -47,7 +47,12 @@ set listchars=tab:→\ ,nbsp:␣,trail:•,eol:¶,precedes:«
 set fillchars+=vert:\ 
 "set colorcolumn=132
 set cursorline
-set signcolumn=number
+
+if has("patch-8.1.1564")
+	set signcolumn=number
+else
+	set signcolumn=yes
+endif
 
 set nofoldenable
 
