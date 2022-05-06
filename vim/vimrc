@@ -4,7 +4,8 @@ Plug 'majutsushi/tagbar'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-Plug 'git@github.com:yplaksyuk/vim-vebugger.git', { 'branch': 'develop' }
+Plug 'vim-vdebug/vdebug'
+"Plug 'git@github.com:yplaksyuk/vim-vebugger.git', { 'branch': 'develop' }
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
@@ -88,6 +89,7 @@ source ~/.vim/project.vim
 
 "command! MakeTags !ctags -R include/ src/
 let g:ctrlp_working_path_mode = 'rwa'
+let g:ctrlp_open_multiple_files = 'h'
 let g:ctrlp_match_window = 'max:30,results:100'
 
 let g:vebugger_view_source_cmd='edit'
