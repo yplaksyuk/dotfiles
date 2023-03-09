@@ -41,7 +41,7 @@ set noswapfile nobackup
 set path=**
 set wildmenu
 set wildmode=longest:full
-set wildignore=*.swp,*/.git/*,*/docs/*,*/node_modules/*,*/dist/*
+set wildignore=*.swp,*/.git/*,*/node_modules/*,*/dist/*
 
 set list
 set listchars=tab:→\ ,nbsp:␣,trail:•,eol:¶,precedes:«
