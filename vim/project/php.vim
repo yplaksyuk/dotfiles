@@ -1,1 +1,1 @@
-set wildignore+=*/vendor/*,*/modules/*
+set wildignore+=*/vendor/*,*/modules/*,*/docs/*

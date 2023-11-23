@@ -89,9 +89,12 @@ source ~/.vim/project.vim
 
 "command! MakeTags !ctags -R include/ src/
 let g:ctrlp_working_path_mode = 'rwa'
-let g:ctrlp_root_markers = [ 'compile_commands.json' ]
+"let g:ctrlp_root_markers = [ 'README.md' ]
+let g:ctrlp_follow_symlinks = 1
 let g:ctrlp_open_multiple_files = 'h'
-let g:ctrlp_match_window = 'max:30,results:100'
+let g:ctrlp_match_window = 'max:30,results:200'
+let g:ctrlp_max_files = 0
+let g:ctrlp_max_depth = 10
 
 let g:vebugger_view_source_cmd='edit'
 

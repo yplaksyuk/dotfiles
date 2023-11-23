@@ -1,2 +1,2 @@
-set wildignore+=*.o
+set wildignore+=*/docs/*,*.o
 set makeprg=make
