@@ -25,26 +25,28 @@ syntax on
 filetype plugin indent on
 
 set number relativenumber numberwidth=5
-
 set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 
 set completeopt=menu,preview
 set complete-=i
 
+set hidden
 set smartindent
 set laststatus=2
 set modelines=5
 set hlsearch
 set incsearch
 set noswapfile nobackup
+set mouse=
 
 set path=**
 set wildmenu
 set wildmode=longest:full
-set wildignore=*.swp,*/.git/*,*/node_modules/*,*/dist/*
+set wildignore=*.swp,*/.git/*,*/node_modules/*,*/dist/*,*/bazel-bin/*,*/bazel-out/*,*/bazel-unity/*
 
 set list
-set listchars=tab:→\ ,nbsp:␣,trail:•,eol:¶,precedes:«
+"set listchars=tab:→\ ,nbsp:␣,trail:•,eol:¶,precedes:«
+set listchars=tab:→\ ,nbsp:␣,trail:•,precedes:«
 set fillchars+=vert:\ 
 "set colorcolumn=132
 set cursorline
@@ -56,6 +58,7 @@ else
 endif
 
 set nofoldenable
+set foldmethod=syntax
 
 
 set background=dark
@@ -67,16 +70,17 @@ nnoremap <tab>   :CtrlPBuffer<cr>
 nnoremap <S-tab> :b#<cr>
 nnoremap <f6>   :cnext<cr>
 nnoremap <f7>   :cprev<cr>
-nnoremap <f9>   :VBGtoggleBreakpointThisLine<cr>
-nnoremap <f10>  :VBGstepOver<cr>
-nnoremap <f11>  :VBGstepIn<cr>
-nnoremap <f12>  :VBGstepOut<cr>
+"nnoremap <f9>   :VBGtoggleBreakpointThisLine<cr>
+"nnoremap <f10>  :VBGstepOver<cr>
+"nnoremap <f11>  :VBGstepIn<cr>
+"nnoremap <f12>  :VBGstepOut<cr>
 
 nnoremap <leader>h :nohlsearch<cr>
 nnoremap <leader>l :set list!<cr>
 nnoremap <leader>w :only<cr>
 nnoremap <leader>q :bd<cr>
 nnoremap <leader>o :TagbarToggle<cr>
+nnoremap <leader>e :Explore<cr>
 nnoremap <leader>d :LspDocumentDiagnostics<cr>
 nnoremap <leader>p :LspDefinition<cr>
 nnoremap <leader>? :LspHover<cr>
@@ -96,13 +100,15 @@ let g:ctrlp_match_window = 'max:30,results:200'
 let g:ctrlp_max_files = 0
 let g:ctrlp_max_depth = 10
 
-let g:vebugger_view_source_cmd='edit'
+"let g:vebugger_view_source_cmd='edit'
 
 let g:vdebug_options = {
-			\	'on_close': 'stop',
-			\	'continuous_mode': 0,
-			\	'layout': 'horizontal',
-			\}
+	\	'port': 9003,
+	\	'on_close': 'stop',
+	\	'continuous_mode': 0,
+	\	'layout': 'horizontal',
+	\	'path_maps': { '/code': getcwd() }
+	\}
 
 let g:lsp_highlight_references_enabled = 1
 
@@ -110,7 +116,11 @@ function! GitBranch()
 	return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
 endfunction
 
-set statusline=[%n]\ %f%m%r%=%{GitBranch()}\ %{g:project_type}\ %l:%c\ %P\ [%{&fileformat}]
+function! GitDescribe()
+	return system("git describe --tags 2>/dev/null | tr -d '\n'")
+endfunction
+
+set statusline=[%n]\ %f%m%r%=%{FugitiveStatusline()}\ %{g:project_type}\ %l:%c\ %P\ [%{&fileformat}]
 
 let s:vimrc=expand('<sfile>:p')
 
