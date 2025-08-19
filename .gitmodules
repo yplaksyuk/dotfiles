@@ -13,3 +13,6 @@
 [submodule "vim/pack/default/start/vdebug"]
 	path = vim/pack/default/start/vdebug
 	url = git@github.com:yplaksyuk/vdebug.git
+[submodule "nvim/lazy"]
+	path = nvim/lazy
+	url = https://github.com/folke/lazy.nvim.git
