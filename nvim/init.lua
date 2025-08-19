@@ -25,6 +25,7 @@ vim.opt.list = true
 vim.opt.listchars = { tab = '→ ', nbsp = '␣', trail = '•', precedes = '«' }
 
 local telescope = require('telescope.builtin')
+local neogit = require('neogit')
 local opts = { noremap = true, silent = true }
 
 vim.keymap.set('n', '<tab>', telescope.buffers, opts)
@@ -32,6 +33,9 @@ vim.keymap.set('n', '<esc>', ':noh<cr><esc>', opts)
 vim.keymap.set('n', '<s-tab>', ':b#<cr>', opts)
 vim.keymap.set('n', '<leader>w', ':only<cr>', opts)
 vim.keymap.set('n', '<leader>q', ':bd<cr>', opts)
+
+-- Neogit
+vim.keymap.set('n', '<leader>g', neogit.open, opts)
 
 -- LSP Commands
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
