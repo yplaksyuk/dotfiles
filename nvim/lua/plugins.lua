@@ -43,6 +43,13 @@ return {
 		dependencies = { "nvim-lua/plenary.nvim", 'nvim-tree/nvim-web-devicons' },
 		config = function ()
 			require("telescope").setup({
+				pickers = {
+					buffers = {
+						sort_lastused = true,     -- sort by most recently used
+						ignore_current_buffer = true, -- (optional) hide current buffer
+						sort_mru = true,          -- telescope >= 0.1.2: explicit MRU sorting
+					},
+				},
 				defaults = {
 					layout_strategy = 'horizontal',
 					layout_config = {
