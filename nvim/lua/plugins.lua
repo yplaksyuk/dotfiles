@@ -44,6 +44,10 @@ return {
 		config = function ()
 			require("telescope").setup({
 				defaults = {
+					layout_strategy = 'horizontal',
+					layout_config = {
+						preview_width = 0
+					},
 					prompt_prefix = "🔍 ",
 					selection_caret = " ",
 					entry_prefix = "  ",
@@ -100,5 +104,6 @@ return {
 				}),
 			})
 		end,
+		enabled = false
 	},
 }
