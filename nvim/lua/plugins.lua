@@ -1,116 +1,48 @@
-return {
-	-- Colorscheme
-	{
-		"ellisonleao/gruvbox.nvim",
-		priority = 1000,
-		config = true
-	},
+-- bootstrap Paq if not installed
+local install_path = vim.fn.stdpath("data") .. "/site/pack/paqs/start/paq-nvim"
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+	vim.fn.system({"git", "clone", "--depth=1",
+		"https://github.com/savq/paq-nvim.git", install_path})
+	vim.cmd "packadd paq-nvim"
+end
 
-	-- Dev Icons
-	{
-		"nvim-tree/nvim-web-devicons",
-		lazy = true,
-		config = true
-	},
+local plugins = {}
 
-	-- Lua Line
-	{
-		'nvim-lualine/lualine.nvim',
-		dependencies = { 'nvim-tree/nvim-web-devicons' },
-		config = function()
-			require('lualine').setup({
-				options = {
-					theme = 'gruvbox',   -- or 'auto'
-					section_separators = { left = '', right = '' },
-					component_separators = { left = '', right = '' },
-					icons_enabled = true,
-				},
-				sections = {
-					lualine_a = { 'mode' },
-					lualine_b = { 'branch', 'diff', 'diagnostics' },
-					lualine_c = { 'filename' },
-					lualine_x = { 'encoding', 'fileformat', 'filetype' },
-					lualine_y = { 'progress' },
-					lualine_z = { 'location' }
-				}
-			})
+function plugins:load(pkgs)
+	local closure = {}
+
+	for _,spec in pairs(pkgs) do
+		if type(spec) == 'table' and (spec.enabled == true or spec.enabled == nil) then
+			local _,url = next(spec)
+			if type(url) == 'string' then
+				local deps = spec.dependencies
+				if type(deps) == 'table' then
+					for _,dep in pairs(deps) do
+						if type(dep) == 'string' and not closure[dep] then
+							closure[dep] = dep
+						end
+					end
+				end
+				closure[url] = spec
+			end
+		elseif type(spec) == 'string' then
+			closure[spec] = spec
 		end
-	},
+	end
 
-	-- Telescope (fuzzy finder)
-	{
-		"nvim-telescope/telescope.nvim",
-		dependencies = { "nvim-lua/plenary.nvim", 'nvim-tree/nvim-web-devicons' },
-		config = function ()
-			require("telescope").setup({
-				pickers = {
-					buffers = {
-						sort_lastused = true,     -- sort by most recently used
-						ignore_current_buffer = true, -- (optional) hide current buffer
-						sort_mru = true,          -- telescope >= 0.1.2: explicit MRU sorting
-					},
-				},
-				defaults = {
-					layout_strategy = 'horizontal',
-					layout_config = {
-						preview_width = 0
-					},
-					prompt_prefix = "🔍 ",
-					selection_caret = " ",
-					entry_prefix = "  ",
-					file_ignore_patterns = {},
-				}
-			})
+	require("paq")(closure)
+
+	for k,spec in pairs(closure) do
+		if type (spec.config) == 'function' then
+			if not pcall(spec.config) then
+				vim.notify('Config failed: ' .. k)
+			end
 		end
-	},
+	end
+end
 
-	-- Treesitter (syntax & parsing)
-	{
-		"nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate",
-		config = function()
-			require("nvim-treesitter.configs").setup({
-				highlight = { enable = true },
-				indent = { enable = true },
-			})
-		end,
-	},
+setmetatable(plugins, {
+	__call = plugins.load
+})
 
-	-- Neogit
-	{
-		"NeogitOrg/neogit",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"sindrets/diffview.nvim",
-			"nvim-telescope/telescope.nvim",
-		},
-	},
-
-	-- LSP Config
-	{ "neovim/nvim-lspconfig" },
-
-	-- Autocompletion
-	{
-		"hrsh7th/nvim-cmp",
-		dependencies = {
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-		},
-		config = function()
-			local cmp = require("cmp")
-			cmp.setup({
-				mapping = cmp.mapping.preset.insert({
-					["<C-Space>"] = cmp.mapping.complete(),
-					["<CR>"] = cmp.mapping.confirm({ select = true }),
-				}),
-				sources = cmp.config.sources({
-					{ name = "nvim_lsp" },
-					{ name = "buffer" },
-					{ name = "path" },
-				}),
-			})
-		end,
-		enabled = false
-	},
-}
+return plugins
