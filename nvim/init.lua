@@ -15,8 +15,8 @@ vim.opt.expandtab = false
 vim.opt.list = true
 vim.opt.listchars = { tab = '→ ', nbsp = '␣', trail = '•', precedes = '«' }
 
-function keymap(mode, keys, handler)
-	vim.keymap.set(mode, keys, handler, { noremap = true, silent = true })
+function keymap(mode, keys, handler, opts)
+	vim.keymap.set(mode, keys, handler, vim.tbl_extend('force', { noremap = true, silent = true }, opts or {}))
 end
 
 
@@ -26,11 +26,11 @@ require 'plugins' {
 		"savq/paq-nvim";
 
 		config = function ()
-			keymap('n', '<tab>', ':Telescope buffers<cr>')
-			keymap('n', '<esc>', ':noh<cr><esc>')
-			keymap('n', '<s-tab>', ':b#<cr>')
-			keymap('n', '<leader>w', ':only<cr>')
-			keymap('n', '<leader>q', ':bd<cr>')
+			keymap('n', '<tab>', ':Telescope buffers<cr>', { desc = 'Show buffers' })
+			keymap('n', '<esc>', ':noh<cr><esc>', { desc = 'Clean highlighting' })
+			keymap('n', '<s-tab>', ':b#<cr>', { desc = 'Switch to other buffer' })
+			keymap('n', '<leader>w', ':only<cr>', { desc = 'Only this window' })
+			keymap('n', '<leader>q', ':bd<cr>', { desc = 'Quit buffer' })
 		end
 	};
 
@@ -96,15 +96,15 @@ require 'plugins' {
 			})
 
 			local telescope = require('telescope.builtin')
-			keymap('n', '<leader>ff', telescope.find_files)
-			keymap('n', '<leader>fg', telescope.live_grep)
-			keymap('n', '<leader>fb', telescope.buffers)
-			keymap('n', '<leader>fh', telescope.help_tags)
+			keymap('n', '<leader>ff', telescope.find_files, { desc = 'Find Files' })
+			keymap('n', '<leader>fg', telescope.live_grep, { desc = 'Find Grep' })
+			keymap('n', '<leader>fb', telescope.buffers, { desc = 'Find Buffers' })
+			keymap('n', '<leader>fh', telescope.help_tags, { desc = 'Find Help' })
 			keymap('n', '<leader>fc', function ()
 				telescope.find_files({
 					default_text = vim.fn.expand("%:p:h"):gsub("^" .. vim.pesc(vim.fn.getcwd()) .. "/", ""),
 					hidden = true
-				})
+				}, { desc = 'Find in Current dir' })
 			end)
 		end
 	},
@@ -127,7 +127,7 @@ require 'plugins' {
 		'tpope/vim-fugitive';
 
 		config = function ()
-			keymap('n', '<leader>g', ':Git<cr>')
+			keymap('n', '<leader>g', ':Git<cr>', { desc = 'Git' })
 		end
 	},
 
@@ -144,7 +144,26 @@ require 'plugins' {
 		config = function ()
 			local neogit = require('neogit')
 
-			keymap('n', '<leader>g', neogit.open)
+			keymap('n', '<leader>g', neogit.open, { desc = 'Git' })
+		end
+	},
+
+	-- Which Key
+	{
+		"folke/which-key.nvim";
+		dependencies = { 'echasnovski/mini.nvim' };
+
+		config = function ()
+			require('which-key').setup({
+				preset = 'helix',
+			})
+
+			--[[
+			wk.register({
+				{ "<leader>b", group = "buffer" },
+				{ "<leader>f", group = "file" },
+				{ "<leader>g", group = "git" },
+			})]]--
 		end
 	},
 
@@ -158,13 +177,13 @@ require 'plugins' {
 			require("mason-lspconfig").setup()
 			require('lsp')
 
-			keymap('n', 'gd', vim.lsp.buf.definition)
-			keymap('n', 'gr', vim.lsp.buf.references)
-			keymap('n', 'gi', vim.lsp.buf.implementation)
-			keymap('n', '<leader>?', vim.lsp.buf.hover)
-			keymap('n', '<leader>rn', vim.lsp.buf.rename)
-			keymap('n', '<leader>ca', vim.lsp.buf.code_action)
-			keymap('n', '<leader>f', function() vim.lsp.buf.format({ async = true }); end)
+			keymap('n', 'gd', vim.lsp.buf.definition, { desc = 'Go to Definition' })
+			keymap('n', 'gr', vim.lsp.buf.references, { desc = 'Go to References' })
+			keymap('n', 'gi', vim.lsp.buf.implementation, { desc = 'Go to implementation' })
+			keymap('n', '<leader>?', vim.lsp.buf.hover, { desc = 'Hover' })
+			keymap('n', '<leader>rn', vim.lsp.buf.rename, { desc = 'Rename' })
+			keymap('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'Code Action' })
+			--keymap('n', '<leader>f', function() vim.lsp.buf.format({ async = true }); end)
 		end
 	},
 }
@@ -177,7 +196,7 @@ vim.diagnostic.config({
 })
 
 -- Diagnostics
-keymap('n', ']d', function () vim.diagnostic.jump({ count = 1, float = true }) end)
-keymap('n', '[d', function () vim.diagnostic.jump({ count = -1, float = true }) end)
+keymap('n', ']d', function () vim.diagnostic.jump({ count = 1, float = true }) end, { desc = 'Next Diagnostic' })
+keymap('n', '[d', function () vim.diagnostic.jump({ count = -1, float = true }) end, { desc = 'Prev Diagnostic' })
 keymap('n', 'de', vim.diagnostic.open_float)
 keymap('n', 'dq', vim.diagnostic.setloclist)
