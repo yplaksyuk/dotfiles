@@ -15,7 +15,7 @@ vim.opt.expandtab = false
 vim.opt.list = true
 vim.opt.listchars = { tab = '→ ', nbsp = '␣', trail = '•', precedes = '«' }
 
-function keymap(mode, keys, handler, opts)
+local keymap = function (mode, keys, handler, opts)
 	vim.keymap.set(mode, keys, handler, vim.tbl_extend('force', { noremap = true, silent = true }, opts or {}))
 end
 
@@ -131,23 +131,6 @@ require 'plugins' {
 		end
 	},
 
-	-- Neogit
-	{
-		"NeogitOrg/neogit";
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"sindrets/diffview.nvim",
-			"nvim-telescope/telescope.nvim",
-		};
-		enabled = false;
-
-		config = function ()
-			local neogit = require('neogit')
-
-			keymap('n', '<leader>g', neogit.open, { desc = 'Git' })
-		end
-	},
-
 	-- Which Key
 	{
 		"folke/which-key.nvim";
@@ -169,24 +152,35 @@ require 'plugins' {
 
 	-- LSP Config
 	{
-		"williamboman/mason-lspconfig.nvim";
-		dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" };
+		"neovim/nvim-lspconfig";
 
 		config = function ()
-			require("mason").setup()
-			require("mason-lspconfig").setup()
-			require('lsp')
+			vim.lsp.config('lua_ls', {
+				settings = {
+					Lua = {
+						diagnostics = { globals = {'vim'} }
+					}
+				}
+			})
 
+			vim.lsp.enable('lua_ls')
+			vim.lsp.enable('ts_ls')
+			vim.lsp.enable('clangd')
+			vim.lsp.enable('cmake')
+
+			--[[
 			keymap('n', 'gd', vim.lsp.buf.definition, { desc = 'Go to Definition' })
 			keymap('n', 'gr', vim.lsp.buf.references, { desc = 'Go to References' })
 			keymap('n', 'gi', vim.lsp.buf.implementation, { desc = 'Go to implementation' })
 			keymap('n', '<leader>?', vim.lsp.buf.hover, { desc = 'Hover' })
 			keymap('n', '<leader>rn', vim.lsp.buf.rename, { desc = 'Rename' })
 			keymap('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'Code Action' })
+			]]--
 			--keymap('n', '<leader>f', function() vim.lsp.buf.format({ async = true }); end)
 		end
 	},
 }
+
 
 vim.diagnostic.config({
   virtual_text = true,   -- show inline

@@ -6,43 +6,42 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
 	vim.cmd "packadd paq-nvim"
 end
 
-local plugins = {}
+local pkgs_has = function (pkgs, uri)
+	for _,spec in ipairs(pkgs) do
+		if type(spec) == 'table' then
+			local _, head = next(spec)
+			if head == uri then return true end
+		else
+			if spec == uri then return true end
+		end
+	end
+	return false
+end
 
-function plugins:load(pkgs)
-	local closure = {}
 
-	for _,spec in pairs(pkgs) do
-		if type(spec) == 'table' and (spec.enabled == true or spec.enabled == nil) then
-			local _,url = next(spec)
-			if type(url) == 'string' then
-				local deps = spec.dependencies
-				if type(deps) == 'table' then
-					for _,dep in pairs(deps) do
-						if type(dep) == 'string' and not closure[dep] then
-							closure[dep] = dep
+return setmetatable({}, {
+	__call = function (_, pkgs)
+		for _, spec in ipairs(pkgs) do
+			if type(spec) == 'table' then
+				if type(spec.dependencies) == 'table' then
+					for _,uri in ipairs(spec.dependencies) do
+						if not pkgs_has(pkgs, uri) then
+							table.insert(pkgs, uri)
 						end
 					end
 				end
-				closure[url] = spec
 			end
-		elseif type(spec) == 'string' then
-			closure[spec] = spec
 		end
-	end
 
-	require("paq")(closure)
+		require("paq")(pkgs)
 
-	for k,spec in pairs(closure) do
-		if type (spec.config) == 'function' then
-			if not pcall(spec.config) then
-				vim.notify('Config failed: ' .. k)
+		for _,spec in pairs(pkgs) do
+			if type (spec.config) == 'function' then
+				if not pcall(spec.config) then
+					local _, head = next(spec)
+					vim.notify('Config failed for ' .. head)
+				end
 			end
 		end
 	end
-end
-
-setmetatable(plugins, {
-	__call = plugins.load
 })
-
-return plugins
