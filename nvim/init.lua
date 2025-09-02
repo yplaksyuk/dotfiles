@@ -2,6 +2,7 @@
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.termguicolors = true
+vim.opt.signcolumn = 'yes'
 vim.opt.updatetime = 300
 vim.opt.mouse = ''
 
@@ -32,6 +33,7 @@ require 'plugins' {
 			keymap('n', '<leader>pi', ':PaqInstall<CR>', { desc = 'Plugins install' })
 			keymap('n', '<leader>pu', ':PaqUpdate<CR>', { desc = 'Plugins update' })
 			keymap('n', '<leader>pc', ':PaqClean<CR>', { desc = 'Plugins clean' })
+			keymap('n', '<leader>pl', ':PaqList<CR>', { desc = 'Plugins list' })
 		end
 	},
 
@@ -78,10 +80,7 @@ require 'plugins' {
 			local fzf = require('fzf-lua')
 
 			fzf.setup {
-				winopts = {
-					height = 1,
-					width = 1,
-				}
+				winopts = { height = 1, width = 1 }
 			}
 
 			showBuffers = fzf.buffers
@@ -117,6 +116,11 @@ require 'plugins' {
 		config = function ()
 			keymap('n', '<leader>g', ':Git<cr>', { desc = 'Git' })
 		end
+	},
+
+	-- GitGutter
+	{
+		'airblade/vim-gitgutter';
 	},
 
 	-- Nvim-cmp: https://github.com/hrsh7th/nvim-cmp
@@ -194,8 +198,50 @@ require 'plugins' {
 			--keymap('n', '<leader>f', function() vim.lsp.buf.format({ async = true }); end)
 		end
 	},
-}
 
+	-- Copilot
+	{
+		'zbirenbaum/copilot.lua';
+
+		config = function ()
+			require('copilot').setup {}
+		end
+	},
+
+	-- Avante: https://github.com/yetone/avante.nvim
+	{
+		'yetone/avante.nvim';
+		dependencies = {
+			'nvim-lua/plenary.nvim',
+			'MunifTanjim/nui.nvim',
+			'hrsh7th/nvim-cmp', -- autocompletion for avante commands and mentions
+			'ibhagwan/fzf-lua', -- for file_selector provider fzf
+			'stevearc/dressing.nvim', -- for input provider dressing
+			'folke/snacks.nvim', -- for input provider snacks
+			'nvim-tree/nvim-web-devicons', -- or echasnovski/mini.icons
+		};
+
+		config = function ()
+			require('avante').setup {
+				provider = "copilot",
+				providers = {
+					openai = {
+						endpoint = "https://api.openai.com/v1",
+						model = "gpt-4o-mini",
+						timeout = 30000,  -- milliseconds (tweak as needed)
+						extra_request_body = {
+							temperature = 0.7,
+							max_tokens = 512,
+						},
+					},
+				},
+				behaviour = {
+					enable_token_counting = false,
+				},
+			}
+		end
+	},
+}
 
 
 -- Generic config
